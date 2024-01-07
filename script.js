@@ -1,20 +1,40 @@
-const map = L.map("map").setView([29.642, 79.7505], 16);
+// base layers
+const googleStreets = L.tileLayer(
+  "http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+  {
+    maxZoom: 20,
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  }
+);
 
-L.tileLayer("http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}", {
-  maxZoom: 20,
-  subdomains: ["mt0", "mt1", "mt2", "mt3"],
-}).addTo(map);
+const googleSat = L.tileLayer(
+  "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+  {
+    maxZoom: 20,
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  }
+);
 
-const marker = L.marker([29.642, 79.7505], { draggable: true }).addTo(map);
-const popup = L.popup([29.642, 79.7505], { content: "hello" });
-marker.bindPopup(popup);
-
-marker.on("dragend", function () {
-  const lat = marker.getLatLng().lat;
-  const lng = marker.getLatLng().lng;
-
-  marker.setLatLng([lat, lng]);
-  map.panTo([lat, lng]);
-
-  console.log(lat, lng);
+const map = L.map("map", {
+  center: [29.642, 79.7505],
+  zoom: 10,
+  layers: [googleStreets, googleSat],
 });
+
+// markers
+const almora = L.marker([29.642, 79.7505]).bindPopup("This is Almora");
+const dehradun = L.marker([30.3165, 78.0322]).bindPopup("This is Dehradun");
+
+const cities = L.layerGroup([almora, dehradun]);
+
+// layer control
+const baseMaps = {
+  "Google Street": googleStreets,
+  "Google Satellite": googleSat,
+};
+
+const overlayMaps = {
+  Cities: cities,
+};
+
+const layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);

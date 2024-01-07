@@ -27,6 +27,18 @@ const dehradun = L.marker([30.3165, 78.0322]).bindPopup("This is Dehradun");
 
 const cities = L.layerGroup([almora, dehradun]);
 
+const areas = L.geoJSON(data, {
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup(feature.properties.name);
+  },
+  style: {
+    color: "yellow",
+    fillColor: "green",
+    weight: 3,
+    fillOpacity: 0.7,
+  },
+}).addTo(map);
+
 // layer control
 const baseMaps = {
   "Google Street": googleStreets,
@@ -35,6 +47,7 @@ const baseMaps = {
 
 const overlayMaps = {
   Cities: cities,
+  "Green Zone": areas,
 };
 
 const layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);

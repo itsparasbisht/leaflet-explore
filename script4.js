@@ -22,3 +22,11 @@ const mapId = document.getElementById("map");
 function fullscreenView() {
   mapId.requestFullscreen();
 }
+
+map.on("mousemove", (e) => {
+  const lat = e.latlng.lat;
+  const lng = e.latlng.lng;
+
+  const div = document.getElementById("coordinate-div");
+  div.innerHTML = `lat - <b>${lat}</b> <br /> lng - <b>${lng}</b`;
+});

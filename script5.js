@@ -12,14 +12,16 @@ const osmLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
 const districts = L.geoJSON(nepalDistrictData, {
   onEachFeature: (feature, layer) => {
+    // get area of each district
     const area = (turf.area(feature) / 1000000).toFixed(2);
     layer.bindPopup(`Area - ${area} sq KMs`);
 
+    // get center of each district
     const center = turf.center(feature);
 
+    // get bbox of each district and add it to map
     const bbox = turf.bbox(feature);
     const bboxPolygon = turf.bboxPolygon(bbox);
-
     L.geoJSON(bboxPolygon).addTo(map);
   },
 }).addTo(map);

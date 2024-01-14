@@ -10,14 +10,27 @@ const osmLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-const districts = L.geoJSON(nepalDistrictData).addTo(map);
+const districts = L.geoJSON(nepalDistrictData, {
+  onEachFeature: (feature, layer) => {
+    const area = (turf.area(feature) / 1000000).toFixed(2);
+    layer.bindPopup(`Area - ${area} sq KMs`);
+
+    const center = turf.center(feature);
+
+    const bbox = turf.bbox(feature);
+    const bboxPolygon = turf.bboxPolygon(bbox);
+
+    L.geoJSON(bboxPolygon).addTo(map);
+  },
+}).addTo(map);
+
 const hqs = L.geoJSON(nepalHqData).addTo(map);
 
-baseLayer = {
+const baseLayer = {
   OSM: osmLayer,
 };
 
-otherLayers = {
+const otherLayers = {
   "Districts Boundaries": districts,
   Headquarters: hqs,
 };

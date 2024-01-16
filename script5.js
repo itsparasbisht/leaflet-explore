@@ -56,6 +56,16 @@ const linestring1 = turf.lineString(
 // map.fitBounds(lineGeoJson.getBounds());
 
 // random polygons with turf js
-const polygons = turf.randomPolygon(5, { bbox: [80, 20, 90, 30] });
-const pGeoJson = L.geoJSON(polygons).addTo(map);
-map.fitBounds(pGeoJson.getBounds());
+// const polygons = turf.randomPolygon(5, { bbox: [80, 20, 90, 30] });
+// const pGeoJson = L.geoJSON(polygons).addTo(map);
+// map.fitBounds(pGeoJson.getBounds());
+
+// adding buffer
+const bPoint = turf.point([83.9856, 28.2096]);
+const buffered = turf.buffer(bPoint, 1, { units: "kilometers" });
+const bJson = L.geoJSON(buffered, {
+  onEachFeature: (feature, layer) => {
+    layer.bindPopup("Near HQ");
+  },
+}).addTo(map);
+map.fitBounds(bJson.getBounds());

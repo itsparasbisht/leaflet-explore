@@ -4,6 +4,16 @@
     padding: 0;
 }
 
-#map {
+body {
+    display: flex;
+}
+
+#map1 {
+    width: 50vw;
+    height: 100vh;
+}
+
+#map2 {
+    width: 50vw;
     height: 100vh;
 }

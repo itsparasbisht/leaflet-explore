@@ -16,6 +16,14 @@ let drawControl = new L.Control.Draw({
     featureGroup: drawnFeatures,
     remove: false,
   },
+  draw: {
+    polygon: {
+      shapeOptions: {
+        color: "red",
+      },
+      showArea: true,
+    },
+  },
 });
 map.addControl(drawControl);
 

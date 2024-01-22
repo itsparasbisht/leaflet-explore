@@ -21,6 +21,7 @@ map.addControl(drawControl);
 
 map.on("draw:created", function (e) {
   let layer = e.layer;
+  console.log(layer.toGeoJSON());
   drawnFeatures.addLayer(layer);
 });
 
